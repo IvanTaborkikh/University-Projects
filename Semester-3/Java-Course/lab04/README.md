@@ -9,4 +9,4 @@ I am currently working on:
 * [ ] Writing a proper execution guide.
 
 ---
-*Return to [Main Repository](../../)*
+*Return to [Main Repository](../)*
