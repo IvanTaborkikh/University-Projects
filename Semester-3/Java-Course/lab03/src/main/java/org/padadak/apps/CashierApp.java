@@ -1,22 +1,22 @@
 package org.padadak.apps;
 
-import org.padadak.logika.CashierLog;
+import org.padadak.logic.CashierLog;
 
 import java.util.Scanner;
 
 public class CashierApp {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final CashierLog log = new CashierLog();
+    private static final CashierLog logic = new CashierLog();
 
     public static void main(String[] args) {
         String name;
         while (true)
         {
-            System.out.println(log.showUsers());
+            System.out.println(logic.showCashiers());
             System.out.println("Welcome, please enter your name or leave: ");
             name = scanner.nextLine();
-            if (log.checkName(name))
+            if (logic.checkName(name))
                 break;
             else if (name.equals("leave"))
                 return;
@@ -26,29 +26,30 @@ public class CashierApp {
 
         while (true) {
 
-            System.out.println(log.status(name));
-            System.out.print("To do(show rezerwacji, settle, leave): ");
+            System.out.println(logic.status(name));
+            System.out.print("To do(show reservations, settle up, leave): ");
             String input = scanner.nextLine();
 
-            if (!input.toLowerCase().equalsIgnoreCase("show rezerwacji")
-                    && !input.toLowerCase().equalsIgnoreCase("settle")
+            if (!input.toLowerCase().equalsIgnoreCase("show reservations")
+                    && !input.toLowerCase().equalsIgnoreCase("settle up")
                     && !input.toLowerCase().equalsIgnoreCase("leave")){
                 System.out.println("Your choice is invalid. Please try again: \n");
                 continue;
-            } else if (input.toLowerCase().equalsIgnoreCase("show rezerwacji")) {
-                System.out.println(log.showRezerwacji());
+            }
+            if (input.toLowerCase().equalsIgnoreCase("show reservations")) {
+                System.out.println(logic.showReservation());
 
-            }else if (input.toLowerCase().equalsIgnoreCase("settle")) {
+            }else if (input.toLowerCase().equalsIgnoreCase("settle up")) {
                 try {
-                    System.out.println(log.showRezerwacji());
-                    System.out.println("Give me number of rezerwacji: ");
+                    System.out.println(logic.showReservation());
+                    System.out.println("Give me number of reservation: ");
                     int nr = Integer.parseInt(scanner.nextLine());
-                    if (!log.delRezerwacja(nr))
+                    if (!logic.delReservation(nr))
                     {
                         System.out.println("Your data is incorrect \n");
                         continue;
                     }
-                    System.out.println("Rezerwacja was settled. \n ");
+                    System.out.println("Reservation was settled. \n ");
                 } catch (NumberFormatException e) {
                     System.out.println("Please give me integer \n");
                 }

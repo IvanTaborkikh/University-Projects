@@ -1,23 +1,24 @@
 package org.padadak.apps;
 
-import org.padadak.Eceptions.*;
-import org.padadak.logika.ClientLog;
+import org.padadak.exceptions.*;
+import org.padadak.logic.ClientLog;
 
 import java.util.Scanner;
 
 public class ClientApp {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final ClientLog log = new ClientLog();
+    private static final ClientLog logic = new ClientLog();
 
     public static void main(String[] args) {
         String name;
         while (true)
         {
-            System.out.println(log.showUsers());
+            System.out.println(logic.showClients());
             System.out.println("Welcome, please enter your name or leave: ");
             name = scanner.nextLine();
-            if (log.checkName(name))
+
+            if (logic.checkName(name))
                 break;
             else if (name.equals("leave"))
                 return;
@@ -27,31 +28,36 @@ public class ClientApp {
 
         while (true) {
 
-            System.out.println(log.status(name));
-            System.out.print("To do(make rezerwacja, my rezerwacja, leave): ");
+            System.out.println(logic.status(name));
+            System.out.print("To do(make reservation, my reservations, leave): ");
             String input = scanner.nextLine();
 
-            if (!input.toLowerCase().equalsIgnoreCase("make rezerwacja")
-                    && !input.toLowerCase().equalsIgnoreCase("my rezerwacja")
+            if (!input.toLowerCase().equalsIgnoreCase("make reservation")
+                    && !input.toLowerCase().equalsIgnoreCase("my reservations")
                     && !input.toLowerCase().equalsIgnoreCase("leave")){
-                System.out.println("You entered an invalid word. Please enter a valid word. \n");
+                System.out.println("You entered an invalid command. Please try again. \n");
                 continue;
-            } else if (input.toLowerCase().equalsIgnoreCase("make rezerwacja")) {
-                System.out.println("Where you want make rezerwacja?");
-                System.out.println(log.showZaklady());
-                System.out.print("Write name of zaklad: ");
-                String zak = scanner.nextLine();
-                if(log.showEmployee(zak).equals("You entered an invalid word. Please enter a valid word."))
+            }
+
+            if (input.toLowerCase().equalsIgnoreCase("make reservation")) {
+                System.out.println("Where you want make reservation?");
+                System.out.println(logic.showFacilities());
+                System.out.print("Enter facility name: ");
+                String facility = scanner.nextLine();
+
+                String employeeList = logic.showEmployee(facility);
+
+                if(employeeList.equals("Facility does not exist"))
                 {
-                    System.out.println(log.showEmployee(zak));
+                    System.out.println(employeeList);
                     continue;
                 }else {
-                    System.out.println(log.showEmployee(zak));
+                    System.out.println(logic.showEmployee(facility));
                 }
 
                 System.out.print("Write name: ");
                 String employee = scanner.nextLine();
-                if (!log.checkEmployee(employee, zak))
+                if (!logic.checkEmployee(employee, facility))
                 {
                     System.out.println("Invalid name");
                     continue;
@@ -63,23 +69,23 @@ public class ClientApp {
                 String time = scanner.nextLine();
 
                 try{
-                    int day = log.checkTime(date, time, zak, employee);
+                    int day = logic.checkTime(date, time, facility, employee);
 
                     switch (day) {
                         case 1:
-                            throw new InvalidRezerwacjaDateFormatException("Invalid date format! Please try again.");
+                            throw new InvalidReservationDateFormatException("Invalid date format! Use yyyy-MM-dd.");
                         case 2:
-                            throw new RezerwacjaTimeRangeException("Rezerwacja is allowed only between 09:00 and 18:00.");
+                            throw new ReservationTimeRangeException("Reservations are allowed only between 09:00 and 18:00.");
                         case 3:
-                            throw new InvalidRezerwacjaTimeStepException("Time must be a multiple of 15 minutes (00, 15, 30, 45).");
+                            throw new InvalidReservationTimeStepException("Time must be in 15-minute intervals (00, 15, 30, 45).");
                         case 4:
-                            throw new InvalidRezerwacjaTimeFormatException("Invalid time format! Please try again.");
+                            throw new InvalidReservationTimeFormatException("Invalid time format! Use HH:mm.");
                         case 5:
-                            throw new PastRezerwacjaTimeException("Cannot make Rezerwacja at time in the past.");
+                            throw new PastReservationTimeException("Cannot make a reservation in the past.");
                         case 6:
-                            throw new RezerwacjaAlreadyExistsException("There is already a reservation at this time!");
+                            throw new ReservationAlreadyExistsException("There is already a reservation at this time!");
                         case 7:
-                            throw new TooCloseRezerwacjaException("There must be at least 30 minutes between rezerwacje.");
+                            throw new TooCloseReservationException("There must be at least 30 minutes between reservations.");
                         case 0:
                             break;
                     }
@@ -92,47 +98,48 @@ public class ClientApp {
 
 
 
-                System.out.println(log.showCennik());
-                System.out.print("Write name of usluga: ");
+                System.out.println(logic.showPrices());
+                System.out.print("Enter service name: ");
 
-                String nazwa_uslugi = scanner.nextLine();
+                String serviceName = scanner.nextLine();
 
-                if (!log.checkUsluga(nazwa_uslugi))
+                if (!logic.checkServiceName(serviceName))
                 {
-                    System.out.println("Invalid name of usluga");
+                    System.out.println("Invalid service name.");
                     continue;
                 }
 
-                if (log.RezerwacjaTime(zak, employee, date, time, nazwa_uslugi, name))
+                if (logic.reservationTime(facility, employee, date, time, serviceName, name))
                 {
-                    System.out.println("Rezerwacja was made");
+                    System.out.println("Reservation was successfully made.");
                 }
 
 
-            }else if (input.toLowerCase().equalsIgnoreCase("my rezerwacja")) {
+            }else if (input.toLowerCase().equalsIgnoreCase("my reservations")) {
 
-                System.out.println(log.showRezerwacji(name));
+                System.out.println(logic.showReservations(name));
                 while (true)
                 {
-                    System.out.println("To do(delete rezerwacja, back): ");
+                    System.out.println("To do(delete reservation, back): ");
                     input = scanner.nextLine();
-                    if (!input.toLowerCase().equalsIgnoreCase("delete rezerwacja")
+                    if (!input.toLowerCase().equalsIgnoreCase("delete reservation")
                             && !input.toLowerCase().equalsIgnoreCase("back"))
                     {
-                        System.out.println("You entered an invalid word. Please enter a valid word. \n ");
-                    } else if (input.toLowerCase().equalsIgnoreCase("delete rezerwacja"))
+                        System.out.println("Invalid command. Please enter a valid command. \n ");
+                    } else if (input.toLowerCase().equalsIgnoreCase("delete reservation"))
                     {
-                        System.out.println("Write number of rezerwacja: ");
+                        System.out.println("Enter reservation ID: ");
                         try {
-                            int nr = Integer.parseInt(scanner.nextLine());
-                            if (!log.deleteRezerwacja(name, nr))
+                            int id = Integer.parseInt(scanner.nextLine());
+                            if (!logic.deleteReservation(name, id))
                             {
-                                System.out.println("Invalid number (or not your rezrwacja)");
+                                System.out.println("Invalid ID or the reservation does not belong to you.");
                                 continue;
                             }
+                            System.out.println("Reservation deleted.");
                             break;
                         } catch (NumberFormatException e) {
-                            System.out.println("Write int");
+                            System.out.println("Please enter a valid numeric ID.");
                         }
                     }else if (input.toLowerCase().equalsIgnoreCase("back"))
                     {
@@ -145,9 +152,5 @@ public class ClientApp {
                 break;
             }
         }
-
     }
-
-
-
 }

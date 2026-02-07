@@ -1,54 +1,53 @@
 package org.padadak;
 
-import org.padadak.classes.Cennik;
-import org.padadak.classes.Osoba;
-import org.padadak.classes.Rezerwacja;
-import org.padadak.classes.Zaklad;
-import org.padadak.data.Baza;
+import org.padadak.data.Database;
+import org.padadak.model.Facility;
+import org.padadak.model.Price;
+import org.padadak.model.Reservation;
+import org.padadak.model.User;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        Baza b = new Baza();
-//        b.insertOsoba(1, "Ivan Taborskykh", "Owner");
-//        b.insertOsoba(1, "Dima Skovorodko", "Client");
-//        b.insertOsoba(1, "Michael Tsoev", "Employee");
+        Database db = new Database();
 //
-//        b.insertCennik("Volosy klac klac", 150);
-//        b.insertCennik("Ekonom klac", 70);
+//        db.insertUser(1, "Ivan Taborskykh", "Owner");
+//        db.insertUser(1, "John Smith", "Client");
+//        db.insertUser(1, "Alex Rivera", "Employee");
+//        db.insertUser(1, "Sarah Connor", "Cashier");
+//        db.insertUser(1, "Mila Kunis", "Client");
+//        db.insertUser(2, "James Bond", "Employee");
 //
-//        b.insertRezerwacja(1, "2025-10-20", "17:00", "Volosy klac klac", 2, 3, false);
-//        b.insertRezerwacja(1, "2025-10-20", "18:00", "Ekonom klac", 1, 4, true);
+//        db.insertPrice("Classic Haircut", 150);
+//        db.insertPrice("Beard Trim", 70);
+//        db.insertPrice("Luxury Grooming", 300);
 //
-//        b.insertZaklad("Ekonom klac", 5, 1);
-//        b.insertZaklad("Dorogyj klac", 10, 1);
+//        db.insertReservation(1, "2027-10-20", "17:00", "Classic Haircut", 3, 2, false);
+//        db.insertReservation(1, "2026-02-06", "18:00", "Beard Trim", 6, 5, true);
 //
-//        b.insertOsoba(1, "Timoha Kartoha", "Cashier");
+//        db.insertFacility("Downtown Salon & Spa", 5, 1);
+//        db.insertFacility("Grand Royal Barbershop", 10, 1);
 
+        List<User> users = db.selectUsers();
+        List<Price> prices = db.selectPriceList();
+        List<Reservation> reservations = db.selectReservations();
+        List<Facility> facilities = db.selectFacilities();
 
-        b.insertOsoba(1, "Makar Stepa", "Client");
-        b.insertOsoba(1, "Vasyl Stas", "Employee");
-
-        List<Osoba> osoby = b.selectOsoby();
-        List<Cennik> cenniky = b.selectCenniky();
-        List<Rezerwacja> rezer = b.selectRezerwacji();
-        List<Zaklad> zak = b.selectZaklady();
-
-        System.out.println("Lista osob");
-        for (Osoba osoba : osoby)
-            System.out.println(osoba);
         System.out.println("Lista rezer");
-        for (Rezerwacja osoba : rezer)
-            System.out.println(osoba);
+        for (Reservation i : reservations)
+            System.out.println(i);
         System.out.println("Lista cennik");
-        for (Cennik osoba : cenniky)
-            System.out.println(osoba);
+        for (Price i : prices)
+            System.out.println(i);
         System.out.println("Lista zak");
-        for (Zaklad osoba : zak)
-            System.out.println(osoba);
+        for (Facility i : facilities)
+            System.out.println(i);
+        System.out.println("Lista osob");
+        for (User i : users)
+            System.out.println(i);
 
-        b.closeConnection();
+        db.closeConnection();
     }
 }
