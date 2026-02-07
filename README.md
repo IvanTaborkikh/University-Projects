@@ -13,8 +13,6 @@ The projects are organized chronologically and by subject:
 | Semester | Focus Areas | Status |
 | :--- | :--- | :---: |
 | [**Semester 3**](./Semester-3) | Java Core, OOP, Distributed Systems (RMI/TCP) | 🟢 Active |
-| **Semester 2** | *Foundational Computer Science* | ⚪ Archived |
-| **Semester 1** | *Intro to Programming* | ⚪ Archived |
 
 ## 📂 Navigation
 
