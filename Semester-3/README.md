@@ -4,15 +4,15 @@
 
 Welcome to the archive of my third semester. Here you will find code repositories organized by university courses. This semester emphasized transitioning from basic coding to building complex, distributed systems.
 
-## 📚 Course Directory
+## Course Directory
 
-| Course Folder | Description | Tech Stack | Status |
-| :--- | :--- | :--- | :---: |
-| [**☕ Java Programming**](./Java-Course) | Deep dive into the Java ecosystem. Projects range from **OOP fundamentals** to **Distributed Systems** (RMI, TCP/IP) and **Multi-threading**. | `Java 17` `Maven` `JavaFX` | 🚧 |
+| Course / Subject | Project Directory | Description | Stack | Status |
+| :--- | :--- | :--- | :---: | :---: |
+| **Java Programming**| [**Java-Course**](./Java-Course) | Deep dive into the Java ecosystem. Projects range from **OOP fundamentals** to **Distributed Systems** (RMI, TCP/IP) and **Multi-threading**. | `Java 17` `Maven` `JavaFX` | 🚧 |
 
 ---
 
-### 🏷️ Status Legend
+### Status Legend
 | Icon | Meaning |
 | :---: | :--- |
 | ✅ | **Completed** & Documented |
@@ -22,3 +22,4 @@ Welcome to the archive of my third semester. Here you will find code repositorie
 
 ---
 *Return to [Main Repository](../)*
+
