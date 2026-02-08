@@ -13,14 +13,14 @@ The course progresses from basic OOP concepts to complex **distributed network s
 
 ## 📂 Laboratory Works
 
-| Lab | Project | Description | Status |
+| Lab | Project Directory | Description | Status |
 | :---: | :--- | :--- | :--- |
-| **02** | [**⭕ Optimization Algo**](./lab02) | Solving a packing problem (rings & holes) maximizing height/minimizing count. | ✅ **Ready for Review** |
-| **03** | [**✂️ Hair Salon System**](./lab03) | **MVC Architecture**. A management system with CRUD operations for Owners, Employees, and Clients. | ✅ **Ready for Review** |
-| **04** | [**📊 Sea Transport Viz**](./lab04) | **REST API Client**. Visualizing stats from GUS API (Statistics Poland) using `HttpClient` and JSON parsing. | 🚧 **Functional (Refactoring)** |
-| **05** | [**👾 Hunter & Treasure**](./lab05) | **Multi-threading**. A concurrent simulation game with synchronized threads (Shooter, Scavenger, Bulldozer). | 🚧 **Functional (Refactoring)** |
-| **06** | [**🔌 River Sim (TCP)**](./lab06) | **Socket Programming**. Custom text-based protocol over TCP/IP to simulate water flow and sensor data. | 🚧 **Functional (Refactoring)** |
-| **07** | [**🌊 River Sim (RMI)**](./lab07) | **Distributed System**. River network simulation using **Java RMI**. Includes a "Tailor" registry service for component discovery. | 🚧 **Functional (Refactoring)** |
+| **02** | [**Problem-Solving Algorithm**](./lab02) | Solving a packing problem (rings & holes) maximizing height/minimizing count. | ✅ **Ready for Review** |
+| **03** | [**Hair Salon System**](./lab03) | **MVC Architecture**. A management system with CRUD operations for Owners, Employees, and Clients. | ✅ **Ready for Review** |
+| **04** | [**Sea Transport Data Analysis**](./lab04) | **REST API Client**. Visualizing stats from GUS API (Statistics Poland) using `HttpClient` and JSON parsing. | 🚧 **Functional (Refactoring)** |
+| **05** | [**Hunter & Treasure Simulation**](./lab05) | **Multi-threading**. A concurrent simulation game with synchronized threads (Shooter, Scavenger, Bulldozer). | 🚧 **Functional (Refactoring)** |
+| **06** | [**River Simulation (TCP)**](./lab06) | **Socket Programming**. Custom text-based protocol over TCP/IP to simulate water flow and sensor data. | 🚧 **Functional (Refactoring)** |
+| **07** | [**River Simulation (RMI)**](./lab07) | **Distributed System**. River network simulation using **Java RMI**. Includes a "Tailor" registry service for component discovery. | 🚧 **Functional (Refactoring)** |
 
 ---
 
@@ -32,3 +32,6 @@ To run these projects, you need:
 
 ## 🚀 How to Run
 Navigate to a specific lab folder and follow the instructions in its local README.
+
+---
+*Return to [Main Repository](../)*
