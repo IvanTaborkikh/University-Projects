@@ -27,7 +27,7 @@ The course progresses from basic OOP concepts to complex **distributed network s
 ## ⚙️ Prerequisites
 To run these projects, you need:
 1.  **JDK 17+**
-2.  **Maven** (for dependency management in Labs 04-07)
+2.  **Maven** (for dependency management in Labs 02-07)
 3.  **IntelliJ IDEA** (recommended)
 
 ## 🚀 How to Run
