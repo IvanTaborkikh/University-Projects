@@ -100,14 +100,6 @@ The system time is controlled by the Owner. They can set it in the application.
 
 ---
 
-## 🚀 How to Run
-
-### ⚙️ Prerequisites
-* JDK 17 or higher
-* IntelliJ IDEA or another Java-compatible IDE
-
----
-
 ### 📌 Package Overview
 
 * **apps** – Entry-point applications for each user role (Owner, Cashier, Employee, Client)

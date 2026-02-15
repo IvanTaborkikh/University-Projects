@@ -13,26 +13,12 @@ The projects are organized chronologically and by subject:
 | Semester | Focus Areas | Status |
 | :--- | :--- | :---: |
 | [**Semester 3**](./Semester-3) | Java Core, OOP, Distributed Systems (RMI/TCP) | 🟢 Active |
-| **Semester 2** | *Foundational Computer Science* | ⚪ Archived |
-| **Semester 1** | *Intro to Programming* | ⚪ Archived |
 
 ## 📂 Navigation
 
 | Course / Subject | Project Directory | Description | Stack |
 | :--- | :--- | :--- | :--- |
-| **Java Programming** | [**Java-Course**](./Semester-3/Java-Course) | Comprehensive course covering OOP, Collections, and Concurrency. Includes **River Network Simulation**. | `Java` |
-
----
-
-## ⭐ Key Highlights
-A spotlight on the most complex assignments implemented in this repository.
-
-### 🌊 River Network Simulation (RMI)
-> Located in: `Semester-3/Java-Course`
-
-A distributed system simulation developed using **Java RMI (Remote Method Invocation)**.
-* **Core Concept:** Simulates a network of river sensors communicating with a central server.
-* **Key Features:** Asynchronous data processing, distributed architecture, and real-time monitoring logic.
+| **Java Programming** | [**Java-Course**](./Semester-3/Java-Course) | Comprehensive course covering OOP, Collections, and Concurrency. Includes **River Network Simulation** and much more. | `Java` |
 
 ---
 
