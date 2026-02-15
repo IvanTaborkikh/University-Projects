@@ -1,11 +1,14 @@
-# Lab 02: Ring Problem-Solving Algorithm
-
+# Lab 02: RingStacker Optimizer
+![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
+![Java](https://img.shields.io/badge/Java_17-ED8B00?style=for-the-badge&logo=java&logoColor=white)
 ## 📖 Project Description
 This project solves an problem regarding covering circular holes in a plate using stacks of rings. The program reads data regarding the holes (in a plate) and available rings, then calculates the optimal stacking configurations based on specific criteria.
 
-### 🛠 Core Technologies & Concepts
-* **Maven:** Used for project build automation and dependency management via `pom.xml`.
-* **Recursion & Backtracking:** The core algorithmic approach used to explore all valid ring combinations and find optimal stacks.
+### 🛠 Technical Stack & Concepts
+
+* **Build Automation (Maven):** Manages dependencies and automates the build process. This ensures the project is portable and can be easily compiled or run on any machine with a single command.
+* **Smart Search (Recursion & Backtracking):** The core algorithm used to find the best possible solutions. It efficiently explores different combinations and "steps back" when a path is invalid, ensuring an optimal result without checking every unnecessary option.
+* **Modular Project Structure:** The code is organized into distinct layers (Models, Logic, and I/O). This separation of concerns follows clean code principles, making the project easy to read, test, and maintain.
 
 ## 🎯 The Task
 The goal is to cover holes in a plate by arranging stacks of rings over them. During the construction of these stacks, the program must **minimize** or **maximize** two specific values:
@@ -61,53 +64,90 @@ Example:
 ## 🚀 How to Run
 
 ### ⚙️ Prerequisites
-To run the projects in this repository, you will need:
+* JDK 17 or newer
+* Maven 3.6+ (optional but recommended)
 
-* **JDK 17** or higher
-* **IntelliJ IDEA** (recommended) or Eclipse
+### 🔨 Build (using Maven)
+From the project root (`lab02`) run:
 
-### 🔨 Compilation
-Navigate to the root `src/main/java` directory of your project and compile the Java files:
-
-```bash
-javac org/padadak/Main.java
+```powershell
+mvn clean package
 ```
 
-### ▶️ Execution
-Run the main class:
+### ▶️ Run
+Once the build is successful, run the application from the project root:
 
-```bash
-java org.padadak.Main
+```powershell
+java -jar target/ring-optimizer.jar
 ```
 
-### 🖥️ Usage
-Upon running, the program will prompt you to enter the paths to your data files via the console.
+The program will prompt you to enter paths to the plate and rings files (you can use `data-example/plates.txt` and `data-example/rings.txt`).
 
-**Example Interaction:**
+---
+
+### 📋 Sample Output
+After providing the file paths, the program will display the calculated optimal stacks for each hole.  
+**Example output in the console:**
 ```text
-Enter the plate file path:
-data/plyta.txt
+Enter the plate file path: 
+data-example/plates.txt
 Enter the rings file path:
-data/pierscienie.txt
+data-example/rings.txt
+Plate: 1
+(min H, min C) H = 3.0, C = 1
+Rings: 1
+(min H, max C) H = 3.0, C = 1
+Rings: 1
+(max H, min C) H = 7.0, C = 3
+Rings: 2 16 1
+(max H, max C) H = 7.0, C = 3
+Rings: 2 16 1
+
+
+Plate: 2
+(min H, min C) H = 5.0, C = 2
+Rings: 16 1
+(min H, max C) H = 5.0, C = 2
+Rings: 16 1
+(max H, min C) H = 16.0, C = 5
+Rings: 4 3 2 16 1
+(max H, max C) H = 16.0, C = 5
+Rings: 4 3 2 16 1
 ```
 
 ---
+
 ## 📂 Project Structure
-The project is organized under the root package `org.padadak`.
+The project is organized under the root package `org.padadak`. Minimal, focused tree (matches local layout):
 
-### 📂 Source Code
-* **`org.padadak`**
-    * `Main.java`: Entry point.
-    * **`algorithm`**
-        * `Calculator.java`: Optimization logic.
-    * **`input`**
-        * `ConsoleManager.java`: User interface logic.
-        * `FileReader.java`: File parsing logic.
-    * **`model`**
-        * `Plate.java`: Data model for plate.
-        * `Ring.java`: Data model for ring.
+```
+lab02/
+├── pom.xml
+├── README.md
+├── data-example/
+│   ├── plates.txt
+│   └── rings.txt
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── module-info.java
+│   │   │   └── org/padadak/
+│   │   │       ├── Main.java
+│   │   │       ├── algorithm/
+│   │   │       │   └── Calculator.java
+│   │   │       ├── input/
+│   │   │       │   ├── ConsoleManager.java
+│   │   │       │   └── FileReader.java
+│   │   │       └── model/
+│   │   │           ├── Plate.java
+│   │   │           └── Ring.java
+│   │   └── resources/
+│   └── test/
+│       └── java/
+└── target/ (build output)
+```
 
-### 📂 Data
-* **`data-example/`**: Directory containing sample input files (`plates.txt`, `rings.txt`).
 ---
 *Return to [Main Repository](../)*
+
+а давай одним текстом без списку, щоб я просто скопював, трохи змінив і скинув до Co polit. Може більш детально, які є абзаци, їх назви, що там повинно бути, що за чим йде, і тд. 
