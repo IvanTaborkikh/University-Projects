@@ -1,20 +1,6 @@
 
 A Java application for visualizing maritime shipping data from the Polish Central Statistical Office (GUS) API. This project demonstrates how to build a modular, multi-tier JavaFX application that fetches, parses, and visualizes data from public web APIs.
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Project Architecture](#project-architecture)
-- [Technology Stack](#technology-stack)
-- [Requirements](#requirements)
-- [Installation & Setup](#installation--setup)
-- [Building the Project](#building-the-project)
-- [Running the Application](#running-the-application)
-- [API Information](#api-information)
-- [Project Structure](#project-structure)
-- [Code Translation Notes](#code-translation-notes)
-
 ## 🎯 Overview
 
 This application provides a user-friendly graphical interface for browsing and analyzing maritime shipping data through the GUS (Główny Urząd Statystyczny - Central Statistical Office) Public API. Users can visualize:
