@@ -10,7 +10,7 @@ import java.net.URL;
 
 public class Request {
 
-    public static ShipsInPorts[] PortRequest() {
+    public static ShipsInPorts[] requestPorts() {
 
         ShipsInPorts[] list = new ShipsInPorts[0];
 
@@ -40,7 +40,7 @@ public class Request {
         return list;
     }
 
-    public static ShipTypeInPort[] PortTypeRequest(String type) {
+    public static ShipTypeInPort[] requestPortTypes(String type) {
 
         ShipTypeInPort[] list = new ShipTypeInPort[0];
 

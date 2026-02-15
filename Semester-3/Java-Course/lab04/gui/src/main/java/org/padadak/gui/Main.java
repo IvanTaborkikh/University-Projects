@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.padadak.client.classes.SSLUtils;
 import org.padadak.gui.graf.Graf;
 
 
@@ -18,8 +19,8 @@ public class Main extends Application {
 
     public void start(Stage stage) {
 
-        Graf graf = new Graf();
-        Label title = new Label("YearShip detektor");
+        Graf graph = new Graf();
+        Label title = new Label("Ship Detector by Year");
         title.setStyle("-fx-font-size: 30px; -fx-font-weight: bold;");
 
         ComboBox<String> portSelector = new ComboBox<>();
@@ -31,7 +32,7 @@ public class Main extends Application {
         yearSelector.setPromptText("Select Year");
 
         Button loadBtn = new Button("Load Data");
-        Button loadTypeBtn = new Button("Load Type Data");
+        Button loadTypeBtn = new Button("Load Ship Type Data");
 
         HBox controls = new HBox(15, portSelector, yearSelector, loadBtn, loadTypeBtn);
         controls.setPadding(new Insets(10));
@@ -53,7 +54,7 @@ public class Main extends Application {
 
             if (selectedPort != null && selectedYear != null) {
                 output.appendText("\nData for port: " + selectedPort + " year: " + selectedYear);
-                graf.ShowChart(selectedPort, selectedYear);
+                graph.showChart(selectedPort, selectedYear);
             }else {
                 output.appendText("\nNo year or port name found");
             }
@@ -64,8 +65,8 @@ public class Main extends Application {
             String selectedYear = yearSelector.getValue();
 
             if (selectedPort != null && selectedYear != null) {
-                output.appendText("\nData for port depending on types of ship: " + selectedPort + " year: " + selectedYear);
-                graf.ShowTypeChart(selectedPort, selectedYear);
+                output.appendText("\nData for port by ship type: " + selectedPort + " year: " + selectedYear);
+                graph.showTypeChart(selectedPort, selectedYear);
             } else {
                 output.appendText("\nNo year or port name found");
             }
@@ -73,11 +74,12 @@ public class Main extends Application {
 
         Scene scene = new Scene(root, 600, 400);
         stage.setScene(scene);
-        stage.setTitle("YearShip detektor");
+        stage.setTitle("Ship Detector by Year");
         stage.show();
     }
 
     public static void main(String[] args) {
+        SSLUtils.disableSSLVerification();
         launch();
     }
 }

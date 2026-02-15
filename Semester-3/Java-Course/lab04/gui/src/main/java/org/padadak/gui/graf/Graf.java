@@ -17,16 +17,16 @@ import java.util.Map;
 
 public class Graf {
 
-    public void ShowChart(String port, String year) {
+    public void showChart(String port, String year) {
 
         Request req = new Request();
-        ShipsInPorts[] data = req.PortRequest();
+        ShipsInPorts[] data = req.requestPorts();
 
         ObservableList<ShipsInPorts> portList = FXCollections.observableArrayList(data);
         ObservableList<ShipsInPorts> filtered = portList.filtered(sp -> sp.getDate().startsWith(year));
 
         Stage stage = new Stage();
-        stage.setTitle("Ship in " + port + " in " + year);
+        stage.setTitle("Ships in " + port + " in " + year);
 
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -42,8 +42,8 @@ public class Graf {
         series.setName(port);
 
         for (ShipsInPorts sp : filtered) {
-            LocalDate list = LocalDate.parse(sp.getDate().substring(0, 10));
-            int day = list.getDayOfYear();
+            LocalDate dateList = LocalDate.parse(sp.getDate().substring(0, 10));
+            int day = dateList.getDayOfYear();
 
             int value = switch (port.toLowerCase()) {
                 case "gdansk" -> sp.getGdansk();
@@ -61,18 +61,26 @@ public class Graf {
         stage.show();
     }
 
-    public void ShowTypeChart(String port, String year) {
+    public void showTypeChart(String port, String year) {
 
-        String[] shipTypes = {"Pasażerski", "Towarowy", "Tankowiec", "Pozostały"};
+        String[] shipTypes = {"Passenger", "Cargo", "Tanker", "Other"};
         Request req = new Request();
-        Map<String, ShipTypeInPort[]> all = new HashMap<>();
+        Map<String, ShipTypeInPort[]> allData = new HashMap<>();
 
-        for (String t : shipTypes) {
-            all.put(t, req.PortTypeRequest(t));
+        for (String type : shipTypes) {
+            String polishtype = switch (type) {
+                case "Passenger" -> "Pasażerski";
+                case "Cargo"     -> "Towarowy";
+                case "Tanker"    -> "Tankowiec";
+                case "Other"     -> "Pozostały";
+                default -> throw new IllegalStateException("Unexpected value: " + type);
+            };
+
+            allData.put(type, req.requestPortTypes(polishtype));
         }
 
         Stage stage = new Stage();
-        stage.setTitle("Types of ship in " + port + " in " + year);
+        stage.setTitle("Ship types in " + port + " in " + year);
 
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -81,13 +89,13 @@ public class Graf {
         yAxis.setLabel("Quantity of ships");
 
         LineChart<Number, Number> chart = new LineChart<>(xAxis, yAxis);
-        chart.setTitle("Types of ship in " + port + " in " + year);
+        chart.setTitle("Ship types in " + port + " in " + year);
 
-        for (String t : shipTypes) {
+        for (String type : shipTypes) {
             XYChart.Series<Number, Number> series = new XYChart.Series<>();
-            series.setName(t);
+            series.setName(type);
 
-            ShipTypeInPort[] list = all.get(t);
+            ShipTypeInPort[] list = allData.get(type);
 
             for (ShipTypeInPort st : list) {
                 if (!st.getDate().startsWith(year))
@@ -110,5 +118,14 @@ public class Graf {
         }
         stage.setScene(new Scene(chart, 900, 600));
         stage.show();
+
+        javafx.scene.Node legend = chart.lookup(".chart-legend");
+
+        if (legend != null) {
+            legend.setStyle("-fx-background-color: transparent; " +
+                    "-fx-padding: 10px; " +
+                    "-fx-hgap: 20px; " +
+                    "-fx-alignment: center;");
+        }
     }
 }
