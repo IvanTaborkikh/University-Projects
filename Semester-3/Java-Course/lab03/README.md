@@ -1,112 +1,190 @@
-# Lab 03: Hair Salon Management System
+# Hair Salon Management System
+
+[![Maven](https://img.shields.io/badge/Maven-C71A36?style=flat-square&logo=apachemaven&logoColor=white)](https://maven.apache.org/)
+[![Java 21](https://img.shields.io/badge/Java_21-ED8B00?style=flat-square&logo=java&logoColor=white)](https://www.oracle.com/java/)
 
 ## 📖 Project Description
-This project implements a small management system for a hair salon network (simulated for a single salon).
-The system allows multiple types of users to interact with shared data and perform CRUD operations
-(Create, Read, Update, Delete) through separate console-based applications.
 
-Each application represents a different role in the salon and operates on the same persisted data
-stored in files or a file-based database.
-
-The project is a simplified approximation of real-world salon processes and focuses on clean architecture,
-separation of concerns, and basic multi-access data handling.
+A multi-user hair salon management system that enables multiple concurrent application instances to perform CRUD operations on shared data persisted in a SQLite database. The system implements a clean separation between business logic and user interface, allowing different user roles (Owner, Cashier, Employee, Client) to interact with a unified data model through dedicated console applications.
 
 ---
 
-## 🛠 Core Technologies & Concepts
-* Console-based Java applications
-* CRUD operations
-* SQLite file-based database
-* SQL-based data persistence
-* Separation of business logic and user interface
-* Custom domain-specific exceptions
+## 🛠 Technical Stack & Concepts
+
+* **Build Automation (Maven)** – Cross-platform portability and dependency management using Maven for reproducible builds across different development environments
+* **Database Persistence & Multi-User Access** – SQLite file-based database with custom exception handling to manage concurrent access from multiple application instances
+* **Modular Project Structure** – Clear separation of concerns with dedicated packages for data access (DAO pattern), business logic, user interface, models, and custom exceptions
 
 ---
 
 ## 🎯 The Task
-The goal of the system is to support the basic business processes of a hair salon by providing
-separate applications for different user roles.
 
-The system must:
-* Support CRUD operations on stored data
-* Persist data between application runs
-* Allow multiple application instances to work on shared data
-* Handle file access conflicts using exception handling
-* Simulate the passage of time
+Develop a small-scale enterprise system that simulates hair salon operations with support for multiple user roles accessing shared data simultaneously. The system must handle CRUD operations on reservations, service pricing, facility management, and user profiles while managing the challenges of concurrent multi-application access to file-based persistence mechanisms.
 
----
+### 🧩 Implementation Logic
 
-## 👥 User Roles & Applications
+The system enforces business rules for reservation management:
 
-### 👑 Owner (OwnerApp)
-* Manages the service price list
-* Views all reservations
-* Views salon income
-* Manages system time
-
-### 💰 Cashier (CashierApp)
-* Views reservations
-* Settles and closes completed reservations
-* Operates within a single salon
-
-### ✂️ Employee (EmployeeApp)
-* Views reservations assigned to them
-* Marks services as completed
-* Operates within a single salon
-
-### 👤 Client (ClientApp)
-* Views their reservations
-* Creates, updates, and deletes their own reservations
-
-Each role is implemented as a separate application, but all applications share the same persisted data.
+* **Date & Time Validation** – Reservations are restricted to business hours (09:00 - 18:00) with 15-minute interval constraints
+* **Temporal Constraints** – Prevents past-dated reservations and enforces minimum 30-minute intervals between consecutive bookings for the same employee
+* **Conflict Resolution** – Detects and prevents duplicate reservations at identical time slots and facility stations
+* **Role-Based Access Control** – Each application type enforces permissions: Owners manage pricing and view all data, Cashiers settle transactions, Employees track assignments, Clients manage personal reservations only
 
 ---
 
-## 🧩 Data Model
+## 📥 Input Data Format
 
-### 👥 Person
-* id – unique person identifier
-* facilityId – salon identifier (Facility)
-* name – person name
-* role – Owner / Cashier / Employee / Client
+### Reservation Parameters
 
-### 💲 Price List
-* id – unique service identifier
-* serviceName – name of the service
-* priceValue – service price
+All user inputs follow strict validation rules:
 
-### 📅 Reservation
-* id – unique reservation identifier
-* facilityId – salon identifier (Facility)
-* date – reservation date
-* time – reservation time
-* serviceName – name of the reserved service
-* employeeId – assigned employee identifier
-* clientId – client identifier
-* isCompleted - has it been done (true or false)
-
-### 🏢 Salon (Facility)
-* id – unique salon identifier
-* name – salon name
-* stationsCount – number of workstations
-* ownerId – owner identifier
-* balance – current salon balance
+```
+Date Format:     yyyy-MM-dd (e.g., 2026-02-16)
+Time Format:     HH:mm (24-hour, e.g., 14:30)
+Time Intervals:  Must end in 00, 15, 30, or 45 minutes
+Business Hours:  09:00 - 18:00
+Facility Names:  Case-sensitive string identifiers
+Employee Names:  Case-sensitive string identifiers
+Service Names:   Exact match from price list
+```
 
 ---
 
-## ⏳ Time Simulation
-The system includes a simple time simulation mechanism.
-The system time is controlled by the Owner. They can set it in the application.
+## 🚀 How to Run
+
+### ⚙️ Prerequisites
+
+* Java 17 or higher
+* Maven 3.6+
+* SQLite JDBC driver (automatically managed via Maven)
+
+### 🔨 Build
+
+```bash
+mvn clean package
+```
+
+This command compiles source code, runs tests (if available), and packages the project into an executable JAR file.
+
+### ▶️ Run
+
+The system consists of four separate applications. Start each in its own terminal:
+
+**Owner Application:**
+```bash
+java -cp "target/hair-salon-system.jar;target/dependency/*" org.padadak.apps.OwnerApp
+```
+
+**Cashier Application (run multiple instances):**
+```bash
+java -cp "target/hair-salon-system.jar;target/dependency/*" org.padadak.apps.CashierApp
+```
+
+**Employee Application (run multiple instances):**
+```bash
+java -cp "target/hair-salon-system.jar;target/dependency/*" org.padadak.apps.EmployeeApp
+```
+
+**Client Application (run multiple instances):**
+```bash
+java -cp "target/hair-salon-system.jar;target/dependency/*" org.padadak.apps.ClientApp
+```
+
+### 📋 Sample Output
+
+```
+List of Clients:
+ - John Smith
+ - Mila Kunis
+Welcome, please enter your name or leave: 
+John Smith
+Name and Surname: John Smith
+Role: Client
+-------------------------
+To do(make reservation, my reservations, leave): make reservation
+Where you want make reservation?
+List of facilities:
+ - Downtown Salon & Spa
+ - Grand Royal Barbershop
+
+Enter facility name: Downtown Salon & Spa
+Who would you like to book an appointment with?
+Employee list:
+Alex Rivera
+
+Write name: Alex Rivera
+Write date (yyyy-MM-dd): 2026-02-20
+Write time (HH:mm): 14:30
+List of prices:
+ - Classic Haircut cost: 100
+ - Beard Trim cost: 70
+ - Luxury Grooming cost: 300
+
+Enter service name: Classic Haircut
+Reservation was successfully made.
+
+Name and Surname: John Smith
+Role: Client
+-------------------------
+To do(make reservation, my reservations, leave): my reservations
+List of reservations:
+- ID[4] - (Downtown Salon & Spa) Date: 2025-10-20-17:00 ServiceName: Classic Haircut. Is done: true
+- ID[6] - (Downtown Salon & Spa) Date: 2027-10-20-17:00 ServiceName: Classic Haircut. Is done: false
+- ID[8] - (Downtown Salon & Spa) Date: 2026-02-20-14:30 ServiceName: Classic Haircut. Is done: false
+
+To do(delete reservation, back): 
+back
+Name and Surname: John Smith
+Role: Client
+-------------------------
+To do(make reservation, my reservations, leave): leave
+
+Process finished with exit code 0
+```
 
 ---
 
-### 📌 Package Overview
+## 📂 Project Structure
 
-* **apps** – Entry-point applications for each user role (Owner, Cashier, Employee, Client)
-* **data** – Database access and persistence logic
-* **exceptions** – Custom domain-specific exceptions
-* **logic** – Business logic for each role
-* **model** – Core data models used across the system
-* **data/database.db** – File-based database shared by all applications
+```
+src/
+├── main/
+│   ├── java/
+│   │   └── org/padadak/
+│   │       ├── Main.java                           # Application entry point
+│   │       ├── apps/
+│   │       │   ├── OwnerApp.java                  # Owner application interface
+│   │       │   ├── CashierApp.java                # Cashier application interface
+│   │       │   ├── EmployeeApp.java               # Employee application interface
+│   │       │   └── ClientApp.java                 # Client application interface
+│   │       ├── data/
+│   │       │   └── Database.java                  # SQLite persistence layer & DAO
+│   │       ├── logic/
+│   │       │   ├── OwnerLog.java                  # Owner business logic
+│   │       │   ├── CashierLog.java                # Cashier business logic
+│   │       │   ├── EmployeeLog.java               # Employee business logic
+│   │       │   └── ClientLog.java                 # Client business logic
+│   │       ├── model/
+│   │       │   ├── User.java                      # User entity model
+│   │       │   ├── Facility.java                  # Facility/Salon entity model
+│   │       │   ├── Reservation.java               # Reservation entity model
+│   │       │   └── Price.java                     # Service pricing entity model
+│   │       └── exceptions/
+│   │           ├── InvalidReservationDateFormatException.java
+│   │           ├── InvalidReservationTimeFormatException.java
+│   │           ├── InvalidReservationTimeStepException.java
+│   │           ├── PastReservationTimeException.java
+│   │           ├── ReservationAlreadyExistsException.java
+│   │           ├── ReservationTimeRangeException.java
+│   │           └── TooCloseReservationException.java
+│   └── resources/                                  # Configuration files
+└── test/                                           # Unit test directory
+    └── java/
 
+data/
+└── database.db                                     # SQLite database file (auto-created)
+```
+
+---
+*Return to [Main Repository](../)*
 
