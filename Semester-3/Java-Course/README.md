@@ -15,7 +15,7 @@ The course progresses from basic OOP concepts to complex **distributed network s
 
 | Lab | Project Directory | Description | Status |
 | :---: | :--- | :--- | :--- |
-| **02** | [**Problem-Solving Algorithm**](./lab02) | Solving a packing problem (rings & holes) maximizing height/minimizing count. | ✅ **Ready for Review** |
+| **02** | [**RingStacker Optimizer**](./lab02) | Solving a packing problem (rings & holes) maximizing height/minimizing count. | ✅ **Ready for Review** |
 | **03** | [**Hair Salon System**](./lab03) | **MVC Architecture**. A management system with CRUD operations for Owners, Employees, and Clients. | ✅ **Ready for Review** |
 | **04** | [**Sea Transport Data Analysis**](./lab04) | **REST API Client**. Visualizing stats from GUS API (Statistics Poland) using `HttpClient` and JSON parsing. | 🚧 **Functional (Refactoring)** |
 | **05** | [**Hunter & Treasure Simulation**](./lab05) | **Multi-threading**. A concurrent simulation game with synchronized threads (Shooter, Scavenger, Bulldozer). | 🚧 **Functional (Refactoring)** |
