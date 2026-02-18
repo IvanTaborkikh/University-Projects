@@ -54,7 +54,7 @@ Service Names:   Exact match from price list
 
 ### ⚙️ Prerequisites
 
-* Java 17 or higher
+* Java 21 or higher
 * Maven 3.6+
 * SQLite JDBC driver (automatically managed via Maven)
 
