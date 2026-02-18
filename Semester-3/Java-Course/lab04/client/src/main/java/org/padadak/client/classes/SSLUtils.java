@@ -5,6 +5,7 @@ import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 
 public class SSLUtils {
+    // WARNING: DO NOT USE IN PRODUCTION. This disables security checks.
     public static void disableSSLVerification() {
         try {
             TrustManager[] trustAllCerts = new TrustManager[] {

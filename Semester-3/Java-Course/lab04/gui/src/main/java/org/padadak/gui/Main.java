@@ -79,6 +79,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        // WARNING: DO NOT USE IN PRODUCTION. This disables security checks.
         SSLUtils.disableSSLVerification();
         launch();
     }

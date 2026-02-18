@@ -1,383 +1,247 @@
+# Maritime Traffic Data Visualization Platform
 
-A Java application for visualizing maritime shipping data from the Polish Central Statistical Office (GUS) API. This project demonstrates how to build a modular, multi-tier JavaFX application that fetches, parses, and visualizes data from public web APIs.
+[![Maven](https://img.shields.io/badge/Maven-C71A36?style=flat-square&logo=apachemaven&logoColor=white)](https://maven.apache.org/)
+[![Java 21](https://img.shields.io/badge/Java_21-ED8B00?style=flat-square&logo=java&logoColor=white)](https://www.oracle.com/java/)
 
-## 🎯 Overview
+## 📖 Project Description
 
-This application provides a user-friendly graphical interface for browsing and analyzing maritime shipping data through the GUS (Główny Urząd Statystyczny - Central Statistical Office) Public API. Users can visualize:
+A comprehensive JavaFX-based application that retrieves, parses, and visualizes maritime traffic data from the Polish Central Statistical Office (GUS) public API. The application provides real-time insights into ship movements across major Polish ports including Gdansk, Gdynia, Szczecin, and Swinoujscie, with support for filtering by ship type and temporal range. The project demonstrates advanced Java concepts including modular architecture (JPMS), REST API integration, JSON deserialization, and interactive data visualization through line charts.
 
-- The number of ships in Polish ports (Gdańsk, Gdynia, Szczecin, Świnoujście)
-- Ship statistics filtered by year (2019-2023)
-- Ship types distribution (Passenger, Cargo, Tanker, Other)
-- Historical trends displayed as interactive line charts
+### 🛠 Technical Stack & Concepts
 
-The application is built using **JavaFX** for the GUI and follows the **Java Platform Module System (JPMS)** for modularity and proper encapsulation.
+- **Build Automation (Maven)**: Multi-module Maven project structure ensuring platform-independent compilation and deployment. Leverages dependency management for seamless integration across distributed systems and CI/CD pipelines.
+  
+- **REST API Integration & Networking**: Implements HTTP/HTTPS communication with the GUS TranStat API using native Java `HttpURLConnection` and custom SSL certificate handling. Demonstrates secure network programming practices and API response parsing at scale.
+  
+- **Modular Project Structure (JPMS)**: Fully compliant with Java Platform Module System, featuring separate `client` and `gui` modules with explicit module declarations in `module-info.java`. Enforces strong encapsulation and clear separation of concerns between business logic and user interface layers.
 
-## ✨ Features
+---
 
-- **Interactive GUI**: Built with JavaFX for a modern, responsive user interface
-- **Real-time Data Fetching**: Retrieves data directly from the GUS API
-- **Data Visualization**: Displays statistics as interactive line charts
-- **Multi-year Analysis**: Compare ship statistics across different years
-- **Port Filtering**: View data for specific Polish ports
-- **Ship Type Classification**: Analyze data by ship types (Passenger, Cargo, Tanker, Other)
-- **Modular Architecture**: Separated client and GUI modules for maintainability
-- **Error Handling**: Robust handling of network requests and data parsing
+## 🎯 The Task
 
-## 🏗️ Project Architecture
+Design and implement a multi-tier desktop application that consumes publicly available maritime data from the Polish Central Statistical Office API. The application must:
 
-The project follows a modular design pattern with two main components:
+- **Retrieve maritime statistics** from the GUS TranStat API endpoints, including ship counts by port and vessel type
+- **Parse JSON responses** containing temporal ship data across Gdansk, Gdynia, Szczecin, and Swinoujscie ports
+- **Visualize data dynamically** using interactive JavaFX line charts with filtering capabilities
+- **Maintain modular architecture** with separate `lab04_client` (business logic) and `lab04_gui` (presentation) JARs
+- **Handle SSL/TLS communications** securely while managing certificate verification
+- **Provide interactive UI controls** for port and year selection with real-time chart generation
 
-```
-lab04/
-├── client/               # Data fetching and processing module (lab04_client.jar)
-│   └── src/main/java/org/padadak/client/
-│       ├── Test.java     # Basic test client
-│       ├── classes/
-│       │   ├── Request.java      # HTTP requests to GUS API
-│       │   └── SSLUtils.java     # SSL verification utilities
-│       └── objects/
-│           ├── ShipsInPorts.java       # Data model for port statistics
-│           └── ShipTypeInPort.java     # Data model for ship type statistics
-│
-├── gui/                  # GUI module (lab04_gui.jar)
-│   └── src/main/java/org/padadak/gui/
-│       ├── Main.java     # JavaFX application entry point
-│       └── graf/
-│           └── Graf.java # Chart generation and visualization
-│
-└── pom.xml              # Parent Maven POM configuration
-```
+### 🧩 Implementation Logic
 
-### Module Dependencies
+The application follows a client-server architectural pattern with clear separation of layers:
 
-- **gui** → **client**: GUI module depends on client module for data operations
-- **client** → **java.base**, **java.net.http**: Uses standard Java libraries
-- Both modules follow JPMS specifications in `module-info.java`
+1. **Data Acquisition Layer**: The `Request` class establishes HTTPS connections to the GUS API, executing parameterized queries for ship counts and type-specific statistics. Responses are deserialized into strongly-typed Java objects using Jackson ObjectMapper.
 
-## 🛠️ Technology Stack
+2. **Domain Model Layer**: `ShipsInPorts` and `ShipTypeInPort` POJOs represent the API response structure with automatic Jackson-binding to JSON fields (date, port counts, ship type identifiers).
 
-- **Java**: Version 21 (Java 21 SDK required)
-- **Build Tool**: Apache Maven 3.9+
-- **GUI Framework**: JavaFX 21.0.2
-- **JSON Processing**: Jackson Databind 2.13.0
-- **HTTP Client**: Java built-in HttpURLConnection
-- **Module System**: Java Platform Module System (JPMS)
+3. **Presentation Layer**: The `Main` JavaFX application creates an interactive UI with ComboBox selectors for port/year filtering, Button controls for triggering data loads, and a TextArea for status output.
 
-## 📋 Requirements
+4. **Visualization Component**: The `Graf` class constructs dynamic `LineChart` instances, filtering temporal data by year and mapping port-specific ship counts to X-Y coordinates where X represents day-of-year and Y represents ship quantity.
 
-Before running this project, ensure you have:
+5. **SSL Management (`SSLUtils`):** Provides a utility to bypass SSL certificate verification. This is strictly a **development-only** workaround to facilitate communication with the GUS API in environments where the local trust store is not fully configured. It ensures a smooth development workflow while documenting the security implications.
 
-1. **Java Development Kit (JDK)** - Version 21 or higher
-    - Download from: https://www.oracle.com/java/technologies/downloads/
-    - Or use OpenJDK 21: https://openjdk.org/projects/jdk/21/
+---
 
-2. **Apache Maven** - Version 3.9 or higher
-    - Download from: https://maven.apache.org/download.cgi
+## 📥 Input Data Format
 
-3. **JavaFX SDK** - Version 21.0.2 (if using standard JDK, not Liberica JDK Full)
-    - Download from: https://gluonhq.com/products/javafx/
+The application consumes JSON data from the GUS TranStat API in the following format:
 
-4. **Internet Connection**: Required for API calls to GUS servers
-
-5. ⚠️ **API Rate Limiting**: The GUS API has rate limits. Please be respectful when testing and avoid excessive requests.
-
-## 📦 Installation & Setup
-
-### 1. Clone or Extract the Repository
-
-```bash
-cd /path/to/lab04
-```
-
-### 2. Verify Java and Maven Installation
-
-```bash
-java -version
-mvn -version
-```
-
-### 3. Configure JavaFX (if needed)
-
-If using standard JDK (not Liberica JDK Full), you may need to:
-
-1. Download JavaFX SDK 21.0.2
-2. Extract it to a known location (e.g., `C:\javafx-sdk-21.0.2` on Windows or `/opt/javafx-sdk-21.0.2` on Linux)
-3. The Maven POM is already configured with JavaFX dependencies
-
-## 🔨 Building the Project
-
-### Build All Modules
-
-```bash
-mvn clean install
-```
-
-This will:
-1. Compile both client and GUI modules
-2. Run tests (if any)
-3. Package both JARs in their respective `target/` directories
-4. Build artifacts:
-    - `client/target/client-1.0-SNAPSHOT.jar`
-    - `gui/target/gui-1.0-SNAPSHOT.jar`
-
-### Build Only Client Module
-
-```bash
-mvn -pl client clean install
-```
-
-### Build Only GUI Module
-
-```bash
-mvn -pl gui clean install
-```
-
-### Build with Specific JavaFX Path (if needed)
-
-```bash
-mvn clean install -Djavafx.version=21.0.2
-```
-
-## 🚀 Running the Application
-
-### Method 1: Run from IDE (Recommended for Development)
-
-1. Open the project in IntelliJ IDEA or another IDE
-2. Navigate to `gui/src/main/java/org/padadak/gui/Main.java`
-3. Click the "Run" button or press `Shift+F10` (IntelliJ)
-
-### Method 2: Run from Command Line (After Building)
-
-#### On Windows (PowerShell):
-
-```powershell
-# Navigate to project directory
-cd E:\University-Projects\Semester-3\Java-Course\lab04
-
-# Build the project
-mvn clean install
-
-# Run the GUI application
-java --module-path gui\target\gui-1.0-SNAPSHOT.jar;client\target\client-1.0-SNAPSHOT.jar --add-modules gui,client -m gui/org.padadak.gui.Main
-```
-
-#### On Linux/macOS (Bash):
-
-```bash
-# Navigate to project directory
-cd ~/path/to/lab04
-
-# Build the project
-mvn clean install
-
-# Run the GUI application
-java --module-path gui/target/gui-1.0-SNAPSHOT.jar:client/target/client-1.0-SNAPSHOT.jar --add-modules gui,client -m gui/org.padadak.gui.Main
-```
-
-### Method 3: Run Client Test (Data Fetching Only)
-
-```bash
-java --module-path client/target/client-1.0-SNAPSHOT.jar --add-modules client -m client/org.padadak.client.Test
-```
-
-### Method 4: Direct Execution with JavaFX (if using separate JavaFX SDK)
-
-#### Windows:
-
-```powershell
-java --module-path C:\javafx-sdk-21.0.2\lib;gui\target\gui-1.0-SNAPSHOT.jar;client\target\client-1.0-SNAPSHOT.jar `
-     --add-modules javafx.controls,javafx.fxml,gui,client `
-     -m gui/org.padadak.gui.Main
-```
-
-#### Linux/macOS:
-
-```bash
-java --module-path /opt/javafx-sdk-21.0.2/lib:gui/target/gui-1.0-SNAPSHOT.jar:client/target/client-1.0-SNAPSHOT.jar \
-     --add-modules javafx.controls,javafx.fxml,gui,client \
-     -m gui/org.padadak.gui.Main
-```
-
-## 🌐 API Information
-
-### Data Source
-
-**GUS (Central Statistical Office) Public API**
-- **Base URL**: https://api-transtat.stat.gov.pl/
-- **API Documentation**: https://api-transtat.stat.gov.pl/apidocs/index.html
-- **Service Portal**: https://api.stat.gov.pl/Home/TranStatApi
-
-### Used Endpoints
-
-1. **Ships in Ports** (C001MInd111p)
-    - URL: `https://api-transtat.stat.gov.pl/api/v1/C001MInd111p/?format=json`
-    - Purpose: Retrieves total number of ships in all Polish ports by date
-    - Data includes: Gdańsk, Gdynia, Szczecin, Świnoujście
-
-2. **Ships by Type** (C003MInd113p)
-    - URL: `https://api-transtat.stat.gov.pl/api/v1/C003MInd113p/SingleParamPl/{shipType}`
-    - Purpose: Retrieves ship counts by type for specific port
-    - Ship Types: Passenger (Pasażerski), Cargo (Towarowy), Tanker (Tankowiec), Other (Pozostały)
-
-### Data Format
-
-All responses are in **JSON format** with the following structure:
-
+### Ports Data Endpoint
 ```json
 [
   {
-    "id": 1,
-    "date": "2023-01-01",
-    "gdansk": 25,
-    "gdynia": 18,
-    "szczecin": 12,
-    "swinoujscie": 8
+    "id": 1001,
+    "date": "2023-01-15T00:00:00",
+    "gdansk": 42,
+    "gdynia": 38,
+    "szczecin": 25,
+    "swinoujscie": 31
+  },
+  {
+    "id": 1002,
+    "date": "2023-01-16T00:00:00",
+    "gdansk": 45,
+    "gdynia": 40,
+    "szczecin": 27,
+    "swinoujscie": 33
   }
 ]
 ```
 
-### API Rate Limiting
-
-⚠️ **Important**: The GUS API enforces rate limiting. Please:
-- Avoid sending more than a few requests per second
-- Do not repeatedly test large date ranges
-- Cache results when possible
-- Respect the service's terms of use
-
-## 📁 Project Structure
-
-```
-lab04 – копія/
-├── README.md                           # This file
-├── pom.xml                             # Parent POM (multi-module build)
-│
-├── client/                             # Client Module (Lab04_client.jar)
-│   ├── pom.xml                         # Client module POM
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/
-│   │   │   │   ├── module-info.java
-│   │   │   │   └── org/padadak/client/
-│   │   │   │       ├── Test.java
-│   │   │   │       ├── classes/
-│   │   │   │       │   ├── Request.java       # HTTP request handler
-│   │   │   │       │   └── SSLUtils.java      # SSL utilities
-│   │   │   │       └── objects/
-│   │   │   │           ├── ShipsInPorts.java  # Port data model
-│   │   │   │           └── ShipTypeInPort.java # Ship type data model
-│   │   │   └── resources/
-│   │   └── test/
-│   │       └── java/
-│   └── target/                         # Compiled classes and JAR
-│
-├── gui/                                # GUI Module (Lab04_gui.jar)
-│   ├── pom.xml                         # GUI module POM
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/
-│   │   │   │   ├── module-info.java
-│   │   │   │   └── org/padadak/gui/
-│   │   │   │       ├── Main.java       # JavaFX Application entry point
-│   │   │   │       └── graf/
-│   │   │   │           └── Graf.java   # Chart generation
-│   │   │   └── resources/
-│   │   └── test/
-│   │       └── java/
-│   └── target/                         # Compiled classes and JAR
-│
-└── .gitignore (if using Git)
+### Ship Types Data Endpoint
+```json
+[
+  {
+    "id": 2001,
+    "date": "2023-01-15T00:00:00",
+    "gdansk": 12,
+    "gdynia": 10,
+    "szczecin": 8,
+    "swinoujscie": 7
+  }
+]
 ```
 
-## 📝 Code Translation Notes
+**Data Source**: https://api-transtat.stat.gov.pl/api/v1/C001MInd111p/?format=json  
+**API Documentation**: https://api-transtat.stat.gov.pl/apidocs/index.html
 
-This project has been fully translated from Polish to English for international accessibility:
+---
 
-### Translated Elements
+## 🚀 How to Run
 
-| Polish | English | File(s) |
-|--------|---------|---------|
-| `PortRequest()` | `requestPorts()` | Request.java, Test.java |
-| `PortTypeRequest()` | `requestPortTypes()` | Request.java, Test.java, Graf.java |
-| `ShowChart()` | `showChart()` | Main.java, Graf.java |
-| `ShowTypeChart()` | `showTypeChart()` | Main.java, Graf.java |
-| `"Pasażerski"` | `"Passenger"` | Graf.java |
-| `"Towarowy"` | `"Cargo"` | Graf.java |
-| `"Tankowiec"` | `"Tanker"` | Graf.java |
-| `"Pozostały"` | `"Other"` | Graf.java |
-| `"YearShip detektor"` | `"Ship Detector by Year"` | Main.java |
-| `graf` | `graph` | Main.java |
-| `all` | `allData` | Graf.java |
+### ⚙️ Prerequisites
 
-### Variable Naming Convention
+* Java 21 or higher
+* Maven 3.8+
+* JavaFX Runtime** (if not included in your JDK distribution):
+  - Liberica JDK Full includes JavaFX by default
+  - For other distributions, download from [openjfx.io](https://gluonhq.com/products/javafx/)
+* Network Access**: Active internet connection to reach the GUS API (https://api-transtat.stat.gov.pl/)
 
-All code follows **camelCase** naming convention:
-- Methods: `requestPorts()`, `showChart()`, etc.
-- Variables: `portList`, `dateList`, `allData`, etc.
-- Classes: `ShipsInPorts`, `ShipTypeInPort`, etc.
+### 🔨 Build
 
-## 🔗 Related Resources
+Because this is a multi-module project consisting of `lab04_client` and `lab04_gui`, you must install the business logic module into your local repository first so the GUI module can resolve it as a dependency:
 
-- **Java 21 Documentation**: https://docs.oracle.com/en/java/javase/21/
-- **JavaFX Documentation**: https://openjfx.io/openjfx-docs/
-- **Apache Maven Guide**: https://maven.apache.org/guides/
-- **Jackson JSON Library**: https://github.com/FasterXML/jackson
-- **GUS API Documentation**: https://api-transtat.stat.gov.pl/apidocs/index.html
-- **Java Module System**: https://www.baeldung.com/java-9-modularity
-
-## 📖 Examples
-
-### Viewing Ships in Gdańsk (2023)
-
-1. Launch the application
-2. Select "Gdansk" from the Port dropdown
-3. Select "2023" from the Year dropdown
-4. Click "Load Data"
-5. A line chart will open showing the daily number of ships
-
-### Viewing Ship Types in Gdynia (2021)
-
-1. Launch the application
-2. Select "Gdynia" from the Port dropdown
-3. Select "2021" from the Year dropdown
-4. Click "Load Ship Type Data"
-5. A comparison chart showing all ship types will open
-
-## ⚙️ Troubleshooting
-
-### Issue: "Module not found"
-**Solution**: Ensure both `client` and `gui` modules are built before running:
 ```bash
 mvn clean install
 ```
 
-### Issue: "JavaFX not found"
-**Solution**: If using standard JDK, download JavaFX SDK and set module path correctly. Alternatively, use Liberica JDK Full which includes JavaFX.
+This command compiles source code, runs tests (if available), and packages the project into an executable JAR file.
 
-### Issue: "Connection refused" or "Cannot connect to API"
-**Solution**:
-- Check your internet connection
-- Verify the API service is accessible: https://api-transtat.stat.gov.pl/
-- Check if your IP is not rate-limited (wait before retrying)
+### ▶️ Run
 
-### Issue: "SSL Verification Failed"
-**Solution**: The application automatically disables SSL verification for the GUS API. If issues persist, check your system's certificate store.
+**Option 1: Using Maven Plugin (Recommended)**  
+This is the most reliable method as it automatically handles the module path and dependencies:
+```bash
+mvn javafx:run -pl gui
+```
 
-### Issue: "No data displayed"
-**Solution**:
-- Ensure you have selected both a port and a year
-- Try a different year from the available range (2019-2023)
-- Check console output for API error messages
+**Important**: This project requires JavaFX. The easiest way to run it is using Liberica JDK Full, which includes the JavaFX runtime. If you use a standard JDK, ensure you have configured the JavaFX module-path.
 
-## 📄 License
+**Option 2: Via IntelliJ IDEA Maven Interface**  
+If mvn is not recognized in your terminal, use the built-in IDE tools:
 
-This is an academic project created for educational purposes at university.
+1. Open the Maven Tool Window on the right side of the IDE.
+2. Navigate to gui -> Plugins -> javafx.
+3. Double-click javafx:run.
 
-## 👨‍💼 Author
 
-Created as part of Laboratory 4 (Lab04) for the Java Course, Semester 3.
+
+## 📋 Sample Output
+
+### 🖥️ Main Interface
+Upon launching the application, the initial GUI window appears with interactive controls. Users can select a specific Polish port and year from the dropdown menus to begin data exploration.
+
+![Main GUI Window - Initial State](screenshots/main_gui.png)  
+*(Screenshot: The application window showing selection controls ready for user input.)*
 
 ---
 
-**Last Updated**: February 2025
+### 📈 Data Visualization Examples
 
-For questions or issues, please refer to the GUS API documentation or contact your course instructor.
+#### Scenario 1: Port Traffic Over Time
+When a user selects a port (e.g., **Gdańsk**) and a specific year (e.g., **2023**) and clicks the **[Load Data]** button, the application fetches daily statistics from the GUS API and generates a line chart visualizing traffic trends throughout the year.
+
+![Gdańsk Port Traffic Chart 2023](screenshots/gdansk_chart.png)  
+*(Screenshot: A line graph showing the number of ships in Gdańsk port plotted against days of the selected year.)*
+
+#### Scenario 2: Ship Type Distribution
+Clicking the **[Load Ship Type]** button fetches data for all vessel categories that docked at that location during the selected period. The application visualizes the quantity of each ship type (e.g., Passenger, Tanker, Fishing) for the chosen port, allowing for a detailed analysis of its specific traffic composition.
+
+![Ship Type Distribution Chart](screenshots/shiptype_chart.png)  
+*(Screenshot: A multi-line chart visualizing the daily quantity fluctuations of different ship categories for a single selected port over a year.)*
+
+---
+
+
+## 📂 Project Structure
+
+```
+lab04/
+├── pom.xml                                    # Parent POM with multi-module configuration
+├── README.md                                  # This documentation file
+│
+├── client/                                    # Business Logic Module (client)
+│   ├── pom.xml                               # Client module dependencies (Jackson, JSON Simple)
+│   ├── src/
+│   │   └── main/
+│   │       ├── java/
+│   │       │   ├── module-info.java          # JPMS module declaration
+│   │       │   └── org/padadak/client/
+│   │       │       ├── classes/
+│   │       │       │   ├── Request.java      # REST API communication & HTTPS handling
+│   │       │       │   └── SSLUtils.java     # SSL/TLS certificate management utilities
+│   │       │       └── objects/
+│   │       │           ├── ShipsInPorts.java # POJO: Port statistics data model
+│   │       │           └── ShipTypeInPort.java # POJO: Ship type distribution data model
+│   │       └── resources/
+│   └── target/
+│       ├── client-1.0-SNAPSHOT.jar           # Compiled client JAR artifact
+│       ├── classes/                          # Compiled .class files
+│       └── dependency/                       # Runtime dependencies
+│
+├── gui/                                       # Presentation Layer Module (gui)
+│   ├── pom.xml                               # GUI module dependencies (JavaFX)
+│   ├── src/
+│   │   └── main/
+│   │       ├── java/
+│   │       │   ├── module-info.java          # JPMS module declaration
+│   │       │   └── org/padadak/gui/
+│   │       │       ├── Main.java             # JavaFX application entry point & UI controller
+│   │       │       └── graf/
+│   │       │           └── Graf.java         # Dynamic LineChart generation & visualization
+│   │       └── resources/
+│   └── target/
+│       ├── gui-1.0-SNAPSHOT.jar              # Compiled GUI JAR artifact
+│       ├── classes/                          # Compiled .class files
+│       └── dependency/                       # Runtime dependencies (includes client JAR)
+│
+└── screenshots/                               # Documentation & demonstration assets
+    ├── main_gui.png                          # Initial application window
+    ├── gdansk_chart.png                      # Sample port traffic visualization
+    └── shiptype_chart.png                    # Sample ship type distribution
+```
+
+
+**Maven Dependencies Hierarchy:**
+- `gui-1.0-SNAPSHOT.jar` depends on:
+  - `client-1.0-SNAPSHOT.jar`
+  - `javafx-controls-21.0.2.jar`
+  - `javafx-fxml-21.0.2.jar`
+  - `javafx-graphics-21.0.2.jar`
+  - `javafx-base-21.0.2.jar`
+  - `jackson-databind-2.13.0.jar` (transitive from client)
+  - `jackson-core-2.13.0.jar` (transitive)
+  - `jackson-annotations-2.13.0.jar` (transitive)
+  - `json-simple-1.1.1.jar` (transitive from client)
+
+- `client-1.0-SNAPSHOT.jar` depends on:
+  - `jackson-databind-2.13.0.jar`
+  - `json-simple-1.1.1.jar`
+
+---
+
+## 🔗 Key Technologies & Libraries
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **JavaFX** | 21.0.2 | GUI framework for interactive charts and controls |
+| **Jackson Databind** | 2.13.0 | JSON deserialization to Java objects |
+| **JSON Simple** | 1.1.1 | JSON parsing and manipulation |
+| **Java JPMS** | Java 21+ | Modular architecture and encapsulation |
+| **HTTP/HTTPS** | JDK Native | REST API communication |
+
+---
+
+## 📚 API References & Documentation
+
+- **GUS TranStat API Hub**: https://api.stat.gov.pl/Home/TranStatApi
+- **Complete API Documentation**: https://api-transtat.stat.gov.pl/apidocs/index.html
+- **Ports Statistics Endpoint**: https://api-transtat.stat.gov.pl/api/v1/C001MInd111p/?format=json
+- **Ship Types Endpoint**: https://api-transtat.stat.gov.pl/api/v1/C003MInd113p/SingleParamPl/{shipType}
+
+---
+
+*Return to [Main Repository](../)*
