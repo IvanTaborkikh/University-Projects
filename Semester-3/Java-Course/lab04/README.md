@@ -2,6 +2,9 @@
 
 [![Maven](https://img.shields.io/badge/Maven-C71A36?style=flat-square&logo=apachemaven&logoColor=white)](https://maven.apache.org/)
 [![Java 21](https://img.shields.io/badge/Java_21-ED8B00?style=flat-square&logo=java&logoColor=white)](https://www.oracle.com/java/)
+[![JavaFX](https://img.shields.io/badge/JavaFX_21-007396?style=flat-square&logo=java&logoColor=white)](https://openjfx.io/)
+[![Jackson](https://img.shields.io/badge/Jackson_JSON-blueviolet?style=flat-square&logo=json&logoColor=white)](https://github.com/FasterXML/jackson)
+[![REST API](https://img.shields.io/badge/REST_API_Integration-28a745?style=flat-square&logo=postman&logoColor=white)](https://api-transtat.stat.gov.pl/apidocs/index.html)
 
 ## 📖 Project Description
 
