@@ -135,7 +135,7 @@ public class RetensionBasin implements IRetensionBasin {
                             assignRiverSection(riverPort, riverHost);
                             response = "OK";
                         }
-                        else if (word.equals("gpf")) {
+                        else if (word.equals("gfp")) {
                             response = String.valueOf(getFillingPercentage());
                         } else if (word.equals("exit")) {
                             response = "bye";

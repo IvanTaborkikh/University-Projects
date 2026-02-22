@@ -36,22 +36,26 @@ public class ControlCenter implements IControlerCenter {
     }
 
     public void clientStart() {
-        int p;
         int basinPort = 0;
-        try {
-            while (true){
-                System.out.println("Please enter a port: ");
-                reader = new BufferedReader(new InputStreamReader(System.in));
-                p = Integer.valueOf(reader.readLine());
+        while (true) {
+            System.out.println("Please enter a port: ");
+            reader = new BufferedReader(new InputStreamReader(System.in));
+
+            try {
+                String input = reader.readLine();
+                int p = Integer.parseInt(input);
+
                 if (basins.containsKey(p)) {
                     basinPort = p;
                     break;
-                }else{
-                    System.out.println("Try again");
+                } else {
+                    System.out.println("Port not found. Try again.");
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("That's not a valid number! Try again.");
+            } catch (IOException e) {
+                System.out.println("Error reading input.");
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
 
         try {
