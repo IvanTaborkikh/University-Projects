@@ -1,10 +1,10 @@
 package org.padadak.objects;
 
-public class Spychacz extends Figure {
+public class Pusher extends Figure {
 
-    public Spychacz(Plansza plansza)
+    public Pusher(Board board)
     {
-        super(plansza);
+        super(board);
     }
 
     @Override
@@ -15,7 +15,7 @@ public class Spychacz extends Figure {
 
     @Override
     public void run() {
-        System.out.println("Spychacz started");
+        System.out.println("Pusher started");
 
         while (alive) {
 
@@ -43,18 +43,18 @@ public class Spychacz extends Figure {
 
         if (!inside(x1, y1)) return;
 
-        synchronized (plansza) {
+        synchronized (board) {
             if (!canPush(x1, y1, dx, dy)) {
                 return;
             }
 
-            plansza.move(this, x1, y1);
+            board.move(this, x1, y1);
         }
     }
 
     synchronized boolean canPush(int x, int y, int dx, int dy) {
 
-        if (plansza.getInfo(x, y).getFigure() == null) {
+        if (board.getInfo(x, y).getFigure() == null) {
             return true;
         }
 
@@ -65,17 +65,10 @@ public class Spychacz extends Figure {
 
         if (!canPush(x1, y1, dx, dy)) return false;
 
-        Figure f = plansza.getInfo(x, y).getFigure();
-        plansza.move(f, x1, y1);
-        System.out.println("Spychaje figure: " + this.getX() + ", " + this.getY());
+        Figure f = board.getInfo(x, y).getFigure();
+        board.move(f, x1, y1);
+        System.out.println("Pushing figure: " + this.getX() + ", " + this.getY());
 
         return true;
     }
 }
-
-
-
-
-
-
-

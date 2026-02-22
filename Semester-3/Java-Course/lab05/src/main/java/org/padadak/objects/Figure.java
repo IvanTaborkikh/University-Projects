@@ -4,20 +4,20 @@ import java.util.Random;
 
 public abstract class Figure implements Runnable {
     protected int x, y;
-    protected Plansza plansza;
+    protected Board board;
     protected boolean alive = true;
     protected Random rand = new Random();
     private Direction dir;
 
-    public Figure(Plansza plansza) {
-        this.plansza = plansza;
+    public Figure(Board board) {
+        this.board = board;
     }
 
     public abstract char getSymbol();
 
     @Override
     public void run() {
-        System.out.println(getClass() + " started");
+        System.out.println(getClass().getSimpleName() + " started");
         while(alive) {
             moveRandom();
             try { Thread.sleep(500); } catch (Exception e) {}
@@ -27,8 +27,8 @@ public abstract class Figure implements Runnable {
     protected void moveRandom() {
         int nx = x + rand.nextInt(3) - 1;
         int ny = y + rand.nextInt(3) - 1;
-        if(!plansza.getInfo(nx, ny).getKreator())
-            plansza.move(this, nx, ny);
+        if(!board.getInfo(nx, ny).getCreator())
+            board.move(this, nx, ny);
     }
 
     public void setDir(Direction dir) {
@@ -49,7 +49,7 @@ public abstract class Figure implements Runnable {
 
     public void setAlive(boolean alive) {
         this.alive = alive;
-        plansza.removeFigure(this.getX(), this.getY());
+        board.removeFigure(this.getX(), this.getY());
         System.out.println("Delete fig: " + this.getX() + ", " + this.getY());
     }
 
@@ -58,11 +58,7 @@ public abstract class Figure implements Runnable {
     }
 
     public boolean inside(int x, int y) {
-        return x >= 0 && x < plansza.getWidth() &&
-                y >= 0 && y < plansza.getHeight();
+        return x >= 0 && x < board.getWidth() &&
+                y >= 0 && y < board.getHeight();
     }
 }
-
-
-
-

@@ -1,14 +1,14 @@
 package org.padadak;
 
+import org.padadak.objects.Board;
 import org.padadak.objects.Cell;
-import org.padadak.objects.Plansza;
 
 public class Render implements Runnable {
 
-    private Plansza plansza;
+    private Board board;
 
-    public Render(Plansza plansza) {
-        this.plansza = plansza;
+    public Render(Board board) {
+        this.board = board;
     }
 
     @Override
@@ -22,12 +22,12 @@ public class Render implements Runnable {
     private void render() {
         System.out.println("\n\n");
 
-        Cell[][] c = plansza.getCells();
-        for(int y = 0; y < plansza.getHeight(); y++) {
-            for(int x = 0; x < plansza.getWidth(); x++) {
+        Cell[][] c = board.getCells();
+        for(int y = 0; y < board.getHeight(); y++) {
+            for(int x = 0; x < board.getWidth(); x++) {
                 if (c[y][x].getFigure() != null)
                     System.out.print(c[y][x].getFigure().getSymbol() + " ");
-                else if (c[y][x].getKreator())
+                else if (c[y][x].getCreator())
                     System.out.print("K ");
                 else if (c[y][x].getTreasure())
                     System.out.print("T ");

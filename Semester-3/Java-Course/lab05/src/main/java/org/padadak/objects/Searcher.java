@@ -1,11 +1,11 @@
 package org.padadak.objects;
 
-public class Szperacz extends Figure {
+public class Searcher extends Figure {
 
     private int treasures = 0;
 
-    public Szperacz(Plansza plansza) {
-        super(plansza);
+    public Searcher(Board board) {
+        super(board);
     }
 
     @Override
@@ -16,7 +16,7 @@ public class Szperacz extends Figure {
 
     @Override
     protected void moveRandom() {
-        int[] target = plansza.findNearTreasure(x, y);
+        int[] target = board.findNearTreasure(x, y);
 
         int x1 = x;
         int y1 = y;
@@ -31,28 +31,25 @@ public class Szperacz extends Figure {
             y1 = y + rand.nextInt(3) - 1;
         }
 
-        plansza.move(this, x1, y1);
+        board.move(this, x1, y1);
 
-        if (plansza.getInfo(x, y).getTreasure()) {
-            plansza.collectTreasure(x, y);
+        if (board.getInfo(x, y).getTreasure()) {
+            board.collectTreasure(x, y);
             treasures++;
         }
         if (treasures >= 10) {
-            System.out.println("Szperacz został Strzelcom");
+            System.out.println("Searcher became Shooter");
 
             alive = false;
 
-            plansza.removeFigure(x, y);
+            board.removeFigure(x, y);
 
-            Strzelec newStrzelec = new Strzelec(plansza);
-            plansza.placeFigure(newStrzelec, x, y);
-            new Thread(newStrzelec).start();
+            Shooter newShooter = new Shooter(board);
+            board.placeFigure(newShooter, x, y);
+            new Thread(newShooter).start();
         }
 
 
     }
 
 }
-
-
-

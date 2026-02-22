@@ -1,11 +1,11 @@
 package org.padadak.objects;
 
-public class Plansza {
+public class Board {
     private int width;
     private int height;
     private Cell[][] cells;
 
-    public Plansza(int width, int height)
+    public Board(int width, int height)
     {
         this.width = width;
         this.height = height;
@@ -74,13 +74,13 @@ public class Plansza {
     {
         if (newX < 0 || newY < 0 || newX >= width || newY >= height)
             return;
-        if (cells[newY][newX].getKreator())
+        if (cells[newY][newX].getCreator())
             return;
         if (cells[newY][newX].getFigure() != null)
             return;
 
 
-        if (cells[newY][newX].getTreasure() && !(f instanceof Szperacz))
+        if (cells[newY][newX].getTreasure() && !(f instanceof Searcher))
             return;
 
         if (newX == 1 && newY == 0) {

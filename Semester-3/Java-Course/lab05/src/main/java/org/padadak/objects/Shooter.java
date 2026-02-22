@@ -1,10 +1,10 @@
 package org.padadak.objects;
 
-public class Strzelec extends Figure {
+public class Shooter extends Figure {
 
-    public Strzelec(Plansza plansza)
+    public Shooter(Board board)
     {
-        super(plansza);
+        super(board);
     }
 
     @Override public char getSymbol()
@@ -15,7 +15,7 @@ public class Strzelec extends Figure {
 
     @Override
     public void run() {
-        System.out.println("Strzelec started");
+        System.out.println("Shooter started");
         while(alive) {
 
             changeRandDir();
@@ -47,40 +47,34 @@ public class Strzelec extends Figure {
 
 
         if (inside(x1, y1)){
-            Figure f1 = plansza.getInfo(x1, y1).getFigure();
-            if(f1!=null && f1.getClass() != Spychacz.class && wh && !plansza.getInfo(x1, y1).getKreator())
+            Figure f1 = board.getInfo(x1, y1).getFigure();
+            if(f1!=null && f1.getClass() != Pusher.class && wh && !board.getInfo(x1, y1).getCreator())
             {
                 f1.setAlive(false);
-                plansza.getInfo(x1, y1).setDead(wh);
+                board.getInfo(x1, y1).setDead(wh);
                 return;
             }
-            plansza.getInfo(x1, y1).setShoot(wh);
+            board.getInfo(x1, y1).setShoot(wh);
         }
         if (inside(x2, y2)){
-            Figure f2 = plansza.getInfo(x2, y2).getFigure();
-            if(f2!=null && f2.getClass() != Spychacz.class && wh && !plansza.getInfo(x2, y2).getKreator())
+            Figure f2 = board.getInfo(x2, y2).getFigure();
+            if(f2!=null && f2.getClass() != Pusher.class && wh && !board.getInfo(x2, y2).getCreator())
             {
                 f2.setAlive(false);
-                plansza.getInfo(x2, y2).setDead(wh);
+                board.getInfo(x2, y2).setDead(wh);
                 return;
             }
-            plansza.getInfo(x2, y2).setShoot(wh);
+            board.getInfo(x2, y2).setShoot(wh);
         }
         if (inside(x3, y3)) {
-            Figure f3 = plansza.getInfo(x3, y3).getFigure();
-            if(f3!=null && f3.getClass() != Spychacz.class && wh && !plansza.getInfo(x3, y3).getKreator())
+            Figure f3 = board.getInfo(x3, y3).getFigure();
+            if(f3!=null && f3.getClass() != Pusher.class && wh && !board.getInfo(x3, y3).getCreator())
             {
                 f3.setAlive(false);
-                plansza.getInfo(x3, y3).setDead(wh);
+                board.getInfo(x3, y3).setDead(wh);
                 return;
             }
-            plansza.getInfo(x3, y3).setShoot(wh);
+            board.getInfo(x3, y3).setShoot(wh);
         }
     }
 }
-
-
-
-
-
-

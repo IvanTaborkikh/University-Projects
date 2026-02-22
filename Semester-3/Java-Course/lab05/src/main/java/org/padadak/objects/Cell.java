@@ -5,7 +5,7 @@ public class Cell {
     private boolean treasure;
     private boolean shoot;
     private boolean dead;
-    private boolean kreator;
+    private boolean creator;
 
 
     public Figure getFigure() {
@@ -44,12 +44,12 @@ public class Cell {
         return this.dead;
     }
 
-    public void setKreator(boolean kreator)
+    public void setCreator(boolean creator)
     {
-        this.kreator = kreator;
+        this.creator = creator;
     }
 
-    public boolean getKreator(){
-        return this.kreator;
+    public boolean getCreator(){
+        return this.creator;
     }
 }
