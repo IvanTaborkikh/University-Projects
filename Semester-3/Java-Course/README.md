@@ -18,8 +18,8 @@ The course progresses from basic OOP concepts to complex **distributed network s
 | **02** | [**RingStacker Optimizer**](./lab02) | Solving a packing problem (rings & holes) maximizing height/minimizing count. | ✅ **Ready for Review** |
 | **03** | [**Hair Salon System**](./lab03) | **MVC Architecture**. A management system with CRUD operations for Owners, Employees, and Clients. | ✅ **Ready for Review** |
 | **04** | [**Maritime Traffic Data Visualization Platform**](./lab04) | **REST API Client**. Visualizing stats from GUS API (Statistics Poland) using `HttpClient` and JSON parsing. | ✅ **Ready for Review** |
-| **05** | [**Hunter & Treasure Simulation**](./lab05) | **Multi-threading**. A concurrent simulation game with synchronized threads (Shooter, Scavenger, Bulldozer). | 🚧 **Functional (Refactoring)** |
-| **06** | [**River Simulation (TCP)**](./lab06) | **Socket Programming**. Custom text-based protocol over TCP/IP to simulate water flow and sensor data. | 🚧 **Functional (Refactoring)** |
+| **05** | [**Hunter & Treasure Simulation**](./lab05) | **Multi-threading**. A concurrent simulation game with synchronized threads (Shooter, Scavenger, Bulldozer). | ✅ **Ready for Review** |
+| **06** | [**River Simulation (TCP)**](./lab06) | **Socket Programming**. Custom text-based protocol over TCP/IP to simulate water flow and sensor data. | ✅ **Ready for Review** |
 | **07** | [**River Simulation (RMI)**](./lab07) | **Distributed System**. River network simulation using **Java RMI**. Includes a "Tailor" registry service for component discovery. | 🚧 **Functional (Refactoring)** |
 
 ---
