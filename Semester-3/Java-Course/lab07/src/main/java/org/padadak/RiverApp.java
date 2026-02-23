@@ -33,7 +33,7 @@ public class RiverApp extends Application implements IRiverSection {
     public void start(Stage stage) throws Exception {
         VBox root = new VBox(10);
         root.setPadding(new javafx.geometry.Insets(20));
-        root.getChildren().addAll(new Label("Річка (Порт: " + port + ")"), infoLabel);
+        root.getChildren().addAll(new Label("River (Port: " + port + ")"), infoLabel);
 
         IRiverSection cc = (IRiverSection) UnicastRemoteObject.exportObject(this, 0);
         Registry rmiRegistry = LocateRegistry.getRegistry("localhost", 1099);
@@ -64,10 +64,10 @@ public class RiverApp extends Application implements IRiverSection {
                     }
 
                     Platform.runLater(() -> infoLabel.setText(
-                            String.format("Дощ: %d | Від збірника: %d\nРазом: %d", env, water, totalFlow)
+                            String.format("Rain: %d | From basin: %d\nTotal: %d", env, water, totalFlow)
                     ));
                 } catch (Exception e) {
-                    System.out.println("Чекаю на Basin_" + basinPort);
+                    System.out.println("Waiting for Basin_" + basinPort);
                 }
             }
         }).start();

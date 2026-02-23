@@ -33,11 +33,11 @@ public class ControlCenterApp extends Application implements IControlCenter {
         VBox root = new VBox(10);
         root.setPadding(new javafx.geometry.Insets(15));
 
-        Label label = new Label("Моніторинг збірників:");
+        Label label = new Label("Basin Monitoring:");
 
         TextField dischargeField = new TextField();
-        dischargeField.setPromptText("Новий злив (m3/s)");
-        Button btnSet = new Button("Встановити злив");
+        dischargeField.setPromptText("New discharge (m3/s)");
+        Button btnSet = new Button("Set discharge");
 
         btnSet.setOnAction(e -> {
             int selectedIdx = listView.getSelectionModel().getSelectedIndex();
@@ -51,14 +51,14 @@ public class ControlCenterApp extends Application implements IControlCenter {
 
         root.getChildren().addAll(label, listView, dischargeField, btnSet);
 
-        // Реєстрація в RMI
+        // RMI Registration
         IControlCenter cc = (IControlCenter) UnicastRemoteObject.exportObject(this, 0);
         Registry registry = LocateRegistry.getRegistry("localhost", 1099);
         ITailor tailor = (ITailor) registry.lookup("Tailor");
         tailor.register(this.getName(), cc);
 
         stage.setScene(new Scene(root, 400, 400));
-        stage.setTitle("Централа Керування");
+        stage.setTitle("Control Center");
         stage.show();
 
         startMonitoring();
@@ -73,8 +73,8 @@ public class ControlCenterApp extends Application implements IControlCenter {
                         ObservableList<String> items = FXCollections.observableArrayList();
                         for (IRetensionBasin b : basins) {
                             try {
-                                items.add(b.getName() + ": Заповнення " + b.getFillingPercentage() + "%, Злив: " + b.getWaterDischarge());
-                            } catch (RemoteException e) { items.add("Збірник недоступний"); }
+                                items.add(b.getName() + ": Filling " + b.getFillingPercentage() + "%, Discharge: " + b.getWaterDischarge());
+                            } catch (RemoteException e) { items.add("Basin unavailable"); }
                         }
                         listView.setItems(items);
                     });

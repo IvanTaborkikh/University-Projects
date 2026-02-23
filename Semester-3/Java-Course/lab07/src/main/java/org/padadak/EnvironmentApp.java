@@ -26,7 +26,7 @@ public class EnvironmentApp extends Application implements IEnvironment {
     @Override
     public void start(Stage stage) throws Exception {
         VBox root = new VBox(10);
-        root.getChildren().addAll(new Label("Середовище: Опади"), log);
+        root.getChildren().addAll(new Label("Environment: Rainfall"), log);
 
         IEnvironment stub = (IEnvironment) UnicastRemoteObject.exportObject(this, 0);
         Registry registry = LocateRegistry.getRegistry("localhost", 1099);
@@ -50,7 +50,7 @@ public class EnvironmentApp extends Application implements IEnvironment {
                     for (IRiverSection river : rivers) {
                         river.setRainfall(rainfall);
                     }
-                    Platform.runLater(() -> log.appendText("Опади: " + rainfall + " m3/s\n"));
+                    Platform.runLater(() -> log.appendText("Rainfall: " + rainfall + " m3/s\n"));
                 } catch (Exception e) { e.printStackTrace(); }
             }
         }).start();

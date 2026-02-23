@@ -88,7 +88,7 @@ public class BasinApp extends Application implements IRetensionBasin {
 
                     Platform.runLater(() -> {
                         bar.setProgress(vNow / vMax);
-                        status.setText("Наплив: " + totalInflow + " | Злив: " + water + " | vNow: " + vNow);
+                        status.setText("Inflow: " + totalInflow + " | Outflow: " + water + " | vNow: " + vNow);
                     });
                 } catch (Exception e) {
                     System.out.println(riverName);
