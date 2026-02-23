@@ -1,7 +1,7 @@
 # 🌊 Distributed River Network Simulator — Java RMI
 
-![Maven](https://img.shields.io/badge/Maven-Build%20Tool-C71A36?style=flat&logo=apachemaven&logoColor=white)
-![Java](https://img.shields.io/badge/Java-17+-ED8B00?style=flat&logo=openjdk&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white&labelColor=C71A36)
+![Java](https://img.shields.io/badge/Java_21-ED8B00?style=for-the-badge&logo=java&logoColor=white&labelColor=ED8B00)
 
 ---
 
